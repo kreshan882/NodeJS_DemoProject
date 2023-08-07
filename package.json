@@ -1,0 +1,20 @@
+{
+  "name": "2_tutorial_dcb",
+  "version": "1.0.0",
+  "description": "nodejs test project",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js",
+		"dev": "nodemon app"
+  },
+  "author": "kreshan",
+  "license": "ISC",
+  "dependencies": {
+    "debug": "^4.3.4",
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
