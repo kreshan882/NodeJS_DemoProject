@@ -1,5 +1,11 @@
 DCB URL: https://www.youtube.com/watch?v=ZWhoAwTyXFs
 
+RUN The Project
+1) cd 2_Tutorial_DCB/
+   npm install
+   npm install debug express | npm i nodemon -D
+   npm run dev | node app.js
+
 1) new project
         1) RUN >>>> node app
         (impore local module/core module print data)
@@ -96,11 +102,15 @@ URL: https://github.com/kreshan882/NodeJS_DemoProject.git
 1) git config --global user.email "kreshan882@gmail.com"
 2) cd 2_Tutorial_DCB/
 3) git init
-4) git add package.json logs/* app.js index.html logger.js ReadMe.TXT     (git add --all)
+4) git add package.json logs/* app.js index.html logger.js ReadMe.txt     (git add --all)
    git status  ==> check status 
 5) git commit -m "commit fst"
    git log
-6) git push https://github.com/kreshan882/ReactJS_202206.git
+6) git push https://github.com/kreshan882/NodeJS_DemoProject.git
+
+6.1) git push --set-upstream https://github.com/kreshan882/NodeJS_DemoProject.git master ---> first time only 
+
+download project 
 
 
 
