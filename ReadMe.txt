@@ -87,10 +87,21 @@ RUN The Project
                 add validation (//validation comples, use @hapi/joi package [])
                 >>npm i @hapi/joi 
 
----------------> continue at 1.44 min
 
+8/8/2023
+            9.3) post + valication (validate with node_module)  --> add with validation
+                npm i @hapi/joi
 
+---------------> continue at 1.49 min
+            9.4) app.put()   --> update
+            9.5) app.delete() //delete
 
+8) Middlewhere  (intersepter, all the reqfrom this url this funn will call)
+        app.use('/api/movies',(req,res,next) => {  }) 
+
+9) express/routes (big number of route path handeling)
+    //http://localhost:5000/abc/api/movies/
+    app.use('/abc',movies_route);  
 
 
 ################################################################
@@ -102,7 +113,7 @@ URL: https://github.com/kreshan882/NodeJS_DemoProject.git
 1) git config --global user.email "kreshan882@gmail.com"
 2) cd 2_Tutorial_DCB/
 3) git init
-4) git add package.json logs/* app.js index.html logger.js ReadMe.txt     (git add --all)
+4) git add package.json logs/* app.js index.html logger.js ReadMe.txt movies_route.js     (git add --all)
    git status  ==> check status 
 5) git commit -m "commit fst"
    git log

@@ -6,6 +6,8 @@ const EventEmitter= require('events');
 const fs=require('fs');
 const http=require('http');
 const express=require('express');
+const joi=require('@hapi/joi');
+const movies_route=require('./movies_route');
 
 // // 1) all app.js details from module
 //console.log(module);  
@@ -92,6 +94,13 @@ app.listen(port, () => console.log(`server start port: ${port}`));
 const app = express();
 app.use(express.json()); // use in post method ( req convert to jsom)
 
+
+//when call this url it will calling the below middleware [http://localhost:5000/api/movies]
+app.use('/api/movies',(req,res,next) => {
+    console.log(req.url, req.method);
+    next();
+})
+
 const movieList =[{id:1,name:'aaaaa'},
                   {id:2,name:'bbbbb'},
                   {id:3,name:'ccccc'}  
@@ -100,35 +109,85 @@ app.get('/',(req,res) =>{    //http://localhost:5000/
     res.send('root from express');
 })
 
+//get data list
 app.get('/api/movies',(req,res) =>{  // http://localhost:5000/api/movies
     res.send(movieList);
      
 })
 
+//get data
 app.get('/api/movies/:id',(req,res) =>{  // http://localhost:5000/api/movies/1
     let movie=movieList.find(c=> c.id === parseInt(req.params.id));
     if(!movie) res.send('No movie found...');
                res.send(movie);
 })
 
-//POSTMAN Test [post + url+ body+row+ json] <--- {"name":"kreshan"} ===> send
-//input validation
-app.post('/api/movies',(req,res) =>{  // http://localhost:5000/api/movies
+//POSTMAN Test [post +http://localhost:5000/api/movies+ body+row+ json] <--- {"name":"kreshan"} ===> send
+//add data
+app.post('/api/movies',(req,res) =>{  // 
     
-    //this validation comples, use @hapi/joi package [npm i @hapi/joi]
-    if(!req.body.name || req.body.name.length<3){
-        res.status(400).send('name lenth lessthen 3');
+    // //this validation comples, use @hapi/joi package [npm i @hapi/joi]
+    // if(!req.body.name || req.body.name.length<3){
+    //     res.status(400).send('name lenth lessthen 3');
+    //     return;
+    // }
+
+    //use Joi validation
+    const schema=joi.object({   ///create schema for all attribute , which need to validate
+        name: joi.string().min(3).required() 
+    })
+
+    const result = schema.validate(req.body);
+    console.log(result);  //big error discription is showing
+
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
         return;
     }
-    
+
     let movie={
         id: movieList.length +1,
         name:req.body.name
     }
     movieList.push(movie);
-    res.send(movieList);
-     
+    res.send(movieList);  
 })
+//-----------------------------------------
+//update data [http://localhost:5000/api/movies/1 | put| { "name": "1111"}  ]
+app.put('/api/movies/:id',(req,res) =>{ // http://localhost:5000/api/movies
+    let movie=movieList.find(c=> c.id === parseInt(req.params.id));
+    if(!movie) res.send('No movie found...');
+
+    const schema=joi.object({   ///create schema for all attribute , which need to validate
+        name: joi.string().min(3).required() 
+    })
+
+    const result = schema.validate(req.body);
+    console.log(result);  //big error discription is showing
+
+    if(result.error){
+        res.status(400).send(result.error.details[0].message);
+        return;
+    }
+    movie.name=req.body.name;
+    res.send(movie); 
+}) 
+
+//delete data [delete + http://localhost:5000/api/movies/1 ]
+app.delete('/api/movies/:id',(req,res) =>{ 
+    let movie=movieList.find(c=> c.id === parseInt(req.params.id));
+    if(!movie) res.send('No movie found...');
+
+    const index=movieList.indexOf(movie);
+    movieList.splice(index,1);
+    res.send(movieList); 
+}) 
+
+/* *********************************************************************************** */
+//route testing (something like struct.xml)
+//http://localhost:5000/abc/api/movies/
+app.use('/abc',movies_route);
+
 
 app.listen(5000, () => console.log(`server start port 5000`));
 
