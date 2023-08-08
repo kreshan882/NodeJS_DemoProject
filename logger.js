@@ -2,7 +2,7 @@ function log (message){
     console.log(message);
 }
 
-const name='kreshan raj';
+const name='name is kreshan raj.';
 
 
 module.exports.explog = log;

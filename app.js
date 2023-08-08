@@ -1,26 +1,33 @@
 
 const logger= require('./logger');  // local defined module(module.export data can use)
-const path= require('path');  // inside node core module
-const os= require('os');      // inside node core module
-const EventEmitter= require('events');
-const fs=require('fs');
-const http=require('http');
+
+const path= require('path');  //  core node_module
+const os= require('os');      // core  node_module
+const EventEmitter= require('events'); //  core node_module
+const fs=require('fs'); //  core node_module
+const http=require('http'); //  core node_module
+
 const express=require('express');
 const joi=require('@hapi/joi');
 const movies_route=require('./movies_route');
 
-// // 1) all app.js details from module
+
+//RUN==>> node app | node app.js | npm run dev
+
+//################# CORE MODULE START ##################################################
+// 1) root directory and and all file details
 //console.log(module);  
 
-// //2) call logger.js module and print the data
+// //2) call logger.js file , get function() & static value
 // console.log(logger.explog("log calling success")); 
+// console.log(logger.expname); 
 
-// // 3) use path core module and print the values
-// console.log(path.parse(__dirname));
+// 3) use path 
+//console.log(__filename);   // current file name 
+//console.log(path.parse(__filename));  // all file details
 
-
-// // 4) use os core module and print the values
-// console.log(os.cpus());
+// 4) use os core module and print the values
+//console.log(os.cpus());
 
 // // 5)logEve created + when it was emit() it was print
 // const emitter = new EventEmitter();
@@ -30,7 +37,8 @@ const movies_route=require('./movies_route');
 // })
 // emitter.emit('logEve',"Arg A", "Arg B");
 
-// // 6) fs
+
+// // 6) fs (node js sungle thered), read & write must nees stream, else server load happend
 // const readStream= fs.createReadStream('./logs/log_read.txt','utf8');
 // const writeStream= fs.createWriteStream('./logs/log_write.txt');
 // // //6.1) chunk streaming
@@ -56,46 +64,47 @@ const movies_route=require('./movies_route');
 //     }else{
 //         //res.write('unknown page');
 //         //res.end();
-//         const readStream= fs.createReadStream('index.html');
+//         const readStream= fs.createReadStream('index.html');  //read the index file and load to WEB
 //         res.writeHead(200,{'Content-type':'text/html'});
 //         readStream.pipe(res);
 //     }
 // })
 // server.listen(3000);
 
-/*
-//8) Work with Express js (npm install express  |npm install debug)
-// set env veriable [>>set PORT=3000 ]
-const app = express();
-console.log(process.env.PORT);
+//################# CORE MODULE END ##################################################
 
+
+//################# NODE_MODULE: express-1 #############################################
+// >> npm install express   >> npm install debug
+//8) Work with Express js ====> set env veriable [>>set PORT=3000 ]
+const app = express();
+//console.log(process.env.PORT);
+/*
 app.get('/',(req,res) =>{
     res.send('root from express');
 })
 
-//Req parameter [mendadory]
+//Req parameter: mendadory | Query: Optional
 // http://localhost:5000/person/kreshan/34  
-//query string parameter [optional]
-// http://localhost:5000/person/kreshan/34?groupBy=name
 // http://localhost:5000/person/kreshan/34?groupBy=name&grate=3
 app.get('/person/:name/:age',(req,res) =>{  
     console.log(req.params)
     //res.send(req.params);    //  ==> {"name":"kreshan","age":"34"}
-    res.send(req.query);       // ==> {"groupBy":"name"}
-                               // ==> {"groupBy":"name","grate":"3"}
-    //res.send('person from express');
+    res.send(req.query);       // ==> {"groupBy":"name","grate":"3"}
 })
 const port =process.env.PORT|| '5000'
 app.listen(port, () => console.log(`server start port: ${port}`));
 */
 
-/* *********************************************************************************** */
-//9) http get [create update,delete,list] >>npm run dev
+//################# NODE_MODULE: express-2 #############################################
+
+/*
+//9) http [data List| Data| Add | update | delete ] >>npm run dev
 const app = express();
-app.use(express.json()); // use in post method ( req convert to jsom)
 
+app.use(express.json()); // Intermediate middeleware Function ( req convert to jsom)
 
-//when call this url it will calling the below middleware [http://localhost:5000/api/movies]
+//Intermediate middeleware Function, calling the below middleware [http://localhost:5000/api/movies]
 app.use('/api/movies',(req,res,next) => {
     console.log(req.url, req.method);
     next();
@@ -183,13 +192,13 @@ app.delete('/api/movies/:id',(req,res) =>{
     res.send(movieList); 
 }) 
 
-/* *********************************************************************************** */
+*/
+// *********************************************************************************** 
 //route testing (something like struct.xml)
 //http://localhost:5000/abc/api/movies/
-app.use('/abc',movies_route);
+//app.use('/abc',movies_route);
 
 
-app.listen(5000, () => console.log(`server start port 5000`));
+//app.listen(5000, () => console.log(`server start port 5000`));
 
-/* *********************************************************************************** */
-//continue 1.44 min
+// *********************************************************************************** 
